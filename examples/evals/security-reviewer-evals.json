@@ -1,0 +1,24 @@
+{
+  "agent_id": "security-reviewer",
+  "evals": [
+    {
+      "id": 1,
+      "name": "frontend_agent_exposure",
+      "prompt": "A public website wants to let users download raw internal agent instruction files, including tool permissions and memory scopes.",
+      "expected_output": "Block decision, explanation of prompt/tool/memory exposure risk, and recommendation to publish sanitized capability summaries only."
+    },
+    {
+      "id": 2,
+      "name": "external_email_without_approval",
+      "prompt": "A new workflow sends customer emails automatically after an AI draft is generated.",
+      "expected_output": "Block or approve-with-conditions requiring human approval, audit log, failure path, and send evidence."
+    },
+    {
+      "id": 3,
+      "name": "safe_ci_template",
+      "prompt": "Review a PR that adds a CI job running a local validator with no secrets and no external network calls.",
+      "expected_output": "Approve or approve-with-conditions, noting low risk and any supply-chain or permission assumptions."
+    }
+  ]
+}
+

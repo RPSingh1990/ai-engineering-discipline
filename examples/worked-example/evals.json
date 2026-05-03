@@ -1,0 +1,21 @@
+{
+  "agent_id": "backend-builder",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Provider returns accepted=true for a password reset email.",
+      "expected_output": "Return safe success copy, log delivery attempt metadata without tokens, and create audit evidence."
+    },
+    {
+      "id": 2,
+      "prompt": "Provider returns a 500 error while sending the reset email.",
+      "expected_output": "Do not claim delivery succeeded; log provider failure; show safe retry/support copy; alert if repeated."
+    },
+    {
+      "id": 3,
+      "prompt": "Email is not attached to an account.",
+      "expected_output": "Return account-enumeration-safe response while not creating a reset token or sending email."
+    }
+  ]
+}
+

@@ -1,0 +1,24 @@
+# Public-safe example. Replace with your own agent IDs.
+orchestrator:
+  can_call:
+    - product-manager
+    - security-reviewer
+    - backend-builder
+    - frontend-builder
+    - qa-reviewer
+    - research-analyst
+
+product-manager:
+  can_call:
+    - ui-ux
+    - orchestrator
+
+backend-builder:
+  can_call:
+    - security-reviewer
+    - orchestrator
+
+security-reviewer:
+  can_call:
+    - orchestrator
+

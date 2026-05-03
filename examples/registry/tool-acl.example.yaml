@@ -1,0 +1,31 @@
+# Public-safe example tool ACL.
+# Keep default access closed. Add tools only when required.
+orchestrator:
+  tools:
+    - route_agents
+    - read_task_packet
+
+product-manager:
+  tools:
+    - read_roadmap
+    - write_product_packet
+
+backend-builder:
+  tools:
+    - repo_read
+    - repo_write_backend
+    - run_backend_tests
+
+security-reviewer:
+  tools:
+    - repo_read
+    - dependency_scan
+    - secret_scan
+
+blocked_tools:
+  - direct_email_send
+  - direct_social_post
+  - read_all_secrets
+  - production_delete
+  - trading_execute
+
