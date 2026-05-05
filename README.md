@@ -11,6 +11,51 @@ It is not an agent framework and not a claim of novelty. It is a lightweight way
 
 Use it beside Codex, Claude Code, Cursor, Copilot, AutoGen, CrewAI, LangGraph, or your own runner. The goal is simple: make agent behavior reviewable before it becomes production behavior.
 
+## Start Here
+
+### What breaks without this?
+
+Agent permissions drift into prompts, chats, and tribal memory. Teams lose track of which agents may use which tools, which specialists may call each other, and which actions require approval evidence before merge or deploy.
+
+### What command do I run?
+
+Try the local demo:
+
+```bash
+python3 scripts/agent_ops_init.py --demo --force
+python3 scripts/agent_ops_validate.py --root agent-ops-demo --strict
+python3 scripts/run_evals.py
+```
+
+### What failure does it catch?
+
+It catches contract drift: an agent requests `deploy_prod` but the ACL does not grant it, a PM agent delegates directly to a backend agent outside the call graph, or a governed action lacks approval and evidence fields.
+
+### How do I add it to my repo?
+
+Initialize the starter files:
+
+```bash
+python3 scripts/agent_ops_init.py --target ../my-product
+cd ../my-product
+python3 scripts/agent_ops_validate.py --strict
+```
+
+Or add the composite GitHub Action:
+
+```yaml
+- uses: RPSingh1990/agent-contract-tests@v0.1.0
+  with:
+    root: "."
+    strict: "true"
+    run-evals: "true"
+    eval-dir: ".agent-ops/evals"
+```
+
+### How can I contribute one adapter or eval?
+
+Pick one open issue labeled `good first issue` or `help wanted`, add a small adapter under `adapters/` or an assertion example under `examples/evals/`, then include a self-test or documented pass/fail example. Useful contributions are concrete checks, not more abstract process.
+
 ![Agent contract tests demo](assets/demo-agent-contract-tests.svg)
 
 ## What It Catches
