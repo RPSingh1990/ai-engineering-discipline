@@ -75,6 +75,7 @@ Before publishing a repo, run:
 
 ```bash
 python3 scripts/validate_public_repo.py
+python3 scripts/agent_ops_validate.py --strict
 ```
 
 Then manually check:
@@ -87,4 +88,3 @@ Then manually check:
 - no screenshots with secrets
 
 If any doubt exists, block release.
-

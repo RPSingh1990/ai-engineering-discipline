@@ -35,7 +35,8 @@ REQUIRED_DOCS = [
     "docs/failure-modes.md",
     "docs/prompt-blocks.md",
     "docs/case-study.md",
-    "docs/recognition-plan.md",
+    "docs/adoption-and-contribution.md",
+    "docs/enforcement-model.md",
     "docs/no-code-agent-ops.md",
 ]
 
@@ -44,11 +45,14 @@ REQUIRED_TEMPLATES = [
     "templates/governed-task.md",
     "templates/security-review.md",
     "templates/pr-checklist.md",
+    "templates/agent-ops-validate.yml",
 ]
 
 REQUIRED_SCRIPTS = [
     "scripts/validate_public_repo.py",
     "scripts/agent_ops_init.py",
+    "scripts/agent_ops_validate.py",
+    "scripts/agent_ops_guard.py",
 ]
 
 REQUIRED_AGENT_FIELDS = [

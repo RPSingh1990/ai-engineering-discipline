@@ -33,6 +33,9 @@ EXPECTED_FILES = [
     ".agent-ops/reviews/password-reset-sample-review.md",
     ".agent-ops/evals/backend-builder-evals.json",
     ".github/PULL_REQUEST_TEMPLATE.md",
+    ".github/workflows/agent-ops-validate.yml",
+    "scripts/agent_ops_validate.py",
+    "scripts/agent_ops_guard.py",
 ]
 
 
@@ -63,6 +66,18 @@ def main() -> int:
             for item in missing:
                 print(f"  - {item}")
             return 1
+
+        validate = subprocess.run(
+            ["python3", str(target / "scripts" / "agent_ops_validate.py"), "--strict"],
+            cwd=target,
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+        if validate.returncode != 0:
+            print(validate.stdout)
+            print(validate.stderr)
+            return validate.returncode
 
     print("PASS agent ops init selftest")
     return 0

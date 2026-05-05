@@ -16,6 +16,9 @@ FILES_TO_COPY = [
     ("templates/governed-task.md", ".agent-ops/templates/governed-task.md"),
     ("templates/security-review.md", ".agent-ops/templates/security-review.md"),
     ("templates/pr-checklist.md", ".github/PULL_REQUEST_TEMPLATE.md"),
+    ("templates/agent-ops-validate.yml", ".github/workflows/agent-ops-validate.yml"),
+    ("scripts/agent_ops_validate.py", "scripts/agent_ops_validate.py"),
+    ("scripts/agent_ops_guard.py", "scripts/agent_ops_guard.py"),
     ("examples/registry/call-graph.example.yaml", ".agent-ops/registry/call-graph.yaml"),
     ("examples/registry/tool-acl.example.yaml", ".agent-ops/registry/tool-acl.yaml"),
     ("examples/registry/governed-channels.example.yaml", ".agent-ops/registry/governed-channels.yaml"),
@@ -65,7 +68,8 @@ def init_target(target: Path, *, force: bool, demo: bool) -> list[str]:
             "Start with:\n"
             "1. `.agent-ops/templates/governed-task.md`\n"
             "2. `.agent-ops/agents/orchestrator.md`\n"
-            "3. `.agent-ops/registry/tool-acl.yaml`\n\n"
+            "3. `.agent-ops/registry/tool-acl.yaml`\n"
+            "4. `python3 scripts/agent_ops_validate.py --strict`\n\n"
             "Keep real secrets, private prompts, and customer data out of this folder.\n"
         )
         actions.append(f"write {readme}")

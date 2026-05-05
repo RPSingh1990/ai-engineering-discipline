@@ -2,6 +2,8 @@
 
 This repo is technical, but the operating model can be used by founders, product leaders, and operators who do not want to write code.
 
+If you are fully no-code, use the templates and prompt block. The CLI requires Python and a repository, so it is meant for a technical teammate or AI coding environment.
+
 ## What You Can Use Without Coding
 
 Use these templates directly in ChatGPT, Claude, Codex, Cursor, Linear, Notion, Google Docs, or a project tracker:

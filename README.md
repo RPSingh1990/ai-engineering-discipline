@@ -9,12 +9,7 @@ Templates, evals, call graphs, tool ACLs, governed-task packets, and CI checks f
 
 Most AI engineering repos teach people how to build with AI. This repo focuses on a different problem: **how to control AI coding agents before they create prompt sprawl, unclear ownership, unsafe permissions, weak evals, and fake production readiness.**
 
-This repository is a public-safe toolkit distilled from real AI product-building work across:
-
-- a personal AI operating system
-- a relationship/productivity application
-- a public agent showcase site
-- a research decision-support prototype
+This is not a new agent framework. It is a small governance layer for teams already using Codex, Claude Code, Cursor, Copilot, or other AI coding tools.
 
 It does not publish private prompts, internal memory, secrets, customer data, repo paths, production configs, or raw internal agent instructions. The examples here are sanitized patterns that a team can copy safely.
 
@@ -52,10 +47,11 @@ docs/
   operating-model.md            How to run a small AI engineering team
   security-model.md             Public-safe and internal-safe boundaries
   evals-and-benchmarks.md       Lightweight eval discipline
+  enforcement-model.md          What the validator enforces and what it cannot
   failure-modes.md              What breaks when AI coding scales badly
   prompt-blocks.md              Copy-paste prompts for Codex/Claude/Cursor
   case-study.md                 Sanitized field notes from real builds
-  recognition-plan.md           How to grow trust around the repo
+  adoption-and-contribution.md  Honest adoption path and contribution guide
   no-code-agent-ops.md          Operator-friendly use without writing code
 
 examples/
@@ -76,6 +72,8 @@ templates/
 scripts/
   validate_public_repo.py       Local/CI safety and structure checks
   agent_ops_init.py             Copy Agent Ops starter files into another repo
+  agent_ops_validate.py         Enforce agent ACLs, call graph, and governed tasks
+  agent_ops_guard.py            Runtime guard helpers for tool/call/channel checks
 
 .github/workflows/
   validate.yml                  GitHub Actions validation
@@ -101,29 +99,71 @@ PASS software-team agent pack
 PASS eval examples
 ```
 
+Run the Agent Ops contract validator:
+
+```bash
+python3 scripts/agent_ops_validate.py --strict
+```
+
+Expected result:
+
+```text
+PASS agent specs
+PASS tool ACL enforcement
+PASS call graph enforcement
+PASS governed channel registry
+PASS governed tasks
+```
+
 Initialize Agent Ops files into another repo:
 
 ```bash
 python3 scripts/agent_ops_init.py --target ../my-product
+cd ../my-product
+python3 scripts/agent_ops_validate.py --strict
 ```
 
 Or generate a local demo:
 
 ```bash
-python3 scripts/agent_ops_init.py --demo
-python3 scripts/validate_public_repo.py
+python3 scripts/agent_ops_init.py --demo --force
+python3 scripts/agent_ops_validate.py --root agent-ops-demo --strict
 ```
+
+The initializer also copies a GitHub Action into the target repo so future PRs can fail when agent contracts drift.
+
+## What Is Enforced
+
+`scripts/agent_ops_validate.py` checks that:
+
+- agents request only tools granted in `tool-acl.yaml`
+- blocked tools are not requested or granted
+- agent delegation matches `call-graph.yaml`
+- governed channels define approval and evidence fields
+- governed tasks include owner, lane, scope, reviews, tests, rollback, and evidence
+- strict mode fails if registry permissions and agent specs drift
+
+This is CI-time enforcement. It does not intercept live model tool calls. For runtime enforcement, wire the same registry files into your agent runner or tool middleware.
+
+For a minimal runtime check:
+
+```bash
+python3 scripts/agent_ops_guard.py tool backend-builder repo_read
+python3 scripts/agent_ops_guard.py call product-manager backend-builder
+```
+
+The first command should allow the tool. The second should deny the call because the example call graph routes implementation work through the orchestrator.
 
 ## 30-Minute Adoption Path
 
 If you want to try this on a real repo today:
 
-1. Copy `templates/pr-checklist.md` into your repo as `.github/PULL_REQUEST_TEMPLATE.md`.
-2. Copy `templates/security-review.md` into `docs/security-review-template.md`.
-3. Copy one agent example from `examples/agents/`.
-4. Add one eval file from `examples/evals/`.
-5. Run `python3 scripts/validate_public_repo.py` before publishing any public agent content.
-6. Use the governed task template for your next auth, email, deploy, or data-model change.
+1. Run `python3 scripts/agent_ops_init.py --target <repo>`.
+2. In the target repo, run `python3 scripts/agent_ops_validate.py --strict`.
+3. Pick one real auth, email, deploy, data, or external-action change.
+4. Write it as a governed task before asking agents to implement it.
+5. Keep only the agents and tools you actually need.
+6. Let the copied GitHub Action fail PRs when contracts drift.
 
 For a complete example, read:
 
@@ -166,9 +206,9 @@ It is an Agent Ops layer for teams already using AI coding tools.
 - Add a QA agent that checks behavior beyond the happy path.
 - Add a repo validator that blocks leaked secrets and unsafe agent permissions.
 
-## Recognition Path
+## Contribution Path
 
-If this helps your team, star the repo, fork it, or open an issue with your own agent-operating pattern. The strongest contributions are concrete examples: eval prompts, better security checks, useful templates, and failure cases from real AI-assisted builds.
+If this helps your team, fork it or open an issue with your own agent-operating pattern. The strongest contributions are concrete: better enforcement checks, eval prompts, governed-task examples, and failure cases from real AI-assisted builds.
 
 ## License
 
