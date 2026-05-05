@@ -1,0 +1,40 @@
+name: Agent Contract Tests
+description: Validate Agent Ops contracts, tool ACLs, call graphs, governed tasks, and deterministic eval assertions.
+
+inputs:
+  root:
+    description: Repository root to validate.
+    required: false
+    default: "."
+  strict:
+    description: Fail when registry grants drift from agent declarations.
+    required: false
+    default: "true"
+  run-evals:
+    description: Run deterministic eval assertions.
+    required: false
+    default: "true"
+  eval-dir:
+    description: Eval directory relative to root.
+    required: false
+    default: ".agent-ops/evals"
+
+runs:
+  using: composite
+  steps:
+    - name: Validate Agent Ops contracts
+      shell: bash
+      run: |
+        set -euo pipefail
+        STRICT_FLAG=""
+        if [ "${{ inputs.strict }}" = "true" ]; then
+          STRICT_FLAG="--strict"
+        fi
+        python3 "$GITHUB_ACTION_PATH/scripts/agent_ops_validate.py" --root "${{ inputs.root }}" $STRICT_FLAG
+
+    - name: Run deterministic evals
+      if: ${{ inputs.run-evals == 'true' }}
+      shell: bash
+      run: |
+        set -euo pipefail
+        python3 "$GITHUB_ACTION_PATH/scripts/run_evals.py" --root "${{ inputs.root }}" --eval-dir "${{ inputs.eval-dir }}"

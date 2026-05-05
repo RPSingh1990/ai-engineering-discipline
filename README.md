@@ -52,6 +52,7 @@ docs/
   no-code-agent-ops.md          Operator-friendly use without writing code
 
 examples/
+  demo-pr/                     Intentionally failing bad-contract PR example
   agents/                       Public-safe agent specifications
   software-team-agents/         Sanitized software-team agent pack
   registry/                     Example call graph, tool ACL, governed channels
@@ -77,6 +78,8 @@ scripts/
 .github/workflows/
   validate.yml                  GitHub Actions validation
 .gitleaks.toml                  Gitleaks configuration
+action.yml                      Composite GitHub Action for downstream repos
+adapters/                       Claude Code, Codex, and Cursor instruction blocks
 ```
 
 ## Quick Start
@@ -145,6 +148,17 @@ python3 scripts/agent_ops_validate.py --root agent-ops-demo --strict
 
 The initializer also copies a GitHub Action into the target repo so future PRs can fail when agent contracts drift.
 
+Use the repo as a composite GitHub Action:
+
+```yaml
+- uses: RPSingh1990/ai-engineering-discipline@main
+  with:
+    root: "."
+    strict: "true"
+    run-evals: "true"
+    eval-dir: ".agent-ops/evals"
+```
+
 ## What Is Enforced
 
 `scripts/agent_ops_validate.py` checks that:
@@ -190,6 +204,12 @@ For a complete example, read:
 For the sanitized software-team agent pack, read:
 
 - `examples/software-team-agents/README.md`
+
+For tool-specific setup, read:
+
+- `adapters/claude-code/README.md`
+- `adapters/codex/README.md`
+- `adapters/cursor/README.md`
 
 ## The Minimum Useful Workflow
 

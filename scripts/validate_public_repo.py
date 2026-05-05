@@ -29,6 +29,10 @@ FORBIDDEN_PATTERNS = {
 
 REQUIRED_DOCS = [
     "README.md",
+    "adapters/README.md",
+    "adapters/claude-code/README.md",
+    "adapters/codex/README.md",
+    "adapters/cursor/README.md",
     "docs/operating-model.md",
     "docs/security-model.md",
     "docs/evals-and-benchmarks.md",
@@ -42,6 +46,7 @@ REQUIRED_DOCS = [
 ]
 
 REQUIRED_TEMPLATES = [
+    "action.yml",
     "templates/agent-request.md",
     "templates/governed-task.md",
     "templates/security-review.md",

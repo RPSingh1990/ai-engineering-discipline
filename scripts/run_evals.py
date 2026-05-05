@@ -103,13 +103,17 @@ def iter_eval_files(eval_dir: Path) -> list[Path]:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run deterministic Agent Ops eval assertions.")
+    parser.add_argument("--root", default=".", help="Repository root used to resolve relative eval paths")
     parser.add_argument("--eval-dir", default="examples/evals", help="Directory containing eval JSON files")
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
-    eval_dir = (ROOT / args.eval_dir).resolve()
+    root = Path(args.root).resolve()
+    eval_dir_arg = Path(args.eval_dir)
+    eval_dir = eval_dir_arg if eval_dir_arg.is_absolute() else root / eval_dir_arg
+    eval_dir = eval_dir.resolve()
     files = iter_eval_files(eval_dir)
     if not files:
         print(f"FAIL no eval files found in {eval_dir}")
