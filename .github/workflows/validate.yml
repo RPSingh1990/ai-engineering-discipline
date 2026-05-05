@@ -14,13 +14,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Scan secrets with Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Validate public safety and structure
         run: python3 scripts/validate_public_repo.py
       - name: Validate Agent Ops contracts
         run: python3 scripts/agent_ops_validate.py --strict
+      - name: Run deterministic evals
+        run: python3 scripts/run_evals.py
       - name: Run validator regression tests
         run: python3 tests/validator_selftest.py
       - name: Run Agent Ops initializer self-test
@@ -29,3 +37,5 @@ jobs:
         run: python3 tests/agent_ops_validate_selftest.py
       - name: Run Agent Ops runtime guard self-test
         run: python3 tests/agent_ops_guard_selftest.py
+      - name: Run eval runner self-test
+        run: python3 tests/run_evals_selftest.py

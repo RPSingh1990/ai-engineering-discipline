@@ -2,9 +2,10 @@
 
 This repo has two layers:
 
-1. Human operating discipline: templates, task packets, review checklists, and eval prompts.
+1. Human operating discipline: templates, task packets, review checklists, and eval assertions.
 2. CI-time enforcement: scripts that fail when agent contracts drift from the registry.
 3. Runtime guard helpers: small functions an agent runner can call before tools, delegation, or governed actions.
+4. Deterministic eval assertions: saved outputs are checked for required and forbidden content.
 
 It does not claim to sandbox every agent runtime. That requires platform-specific middleware. The goal here is smaller and practical: make agent permissions reviewable, copyable, enforceable in a normal GitHub workflow, and easy to wire into a runner.
 
@@ -25,6 +26,14 @@ The validator checks:
 - declared callers are permitted by the call graph
 - governed channels contain approval and evidence fields
 - governed task files include owner, lane, scope, reviews, tests, rollback, and evidence
+
+Run:
+
+```bash
+python3 scripts/run_evals.py
+```
+
+The eval runner checks saved outputs against deterministic assertions. It is intentionally not a model runner and not a judge model.
 
 ## What It Does Not Enforce
 

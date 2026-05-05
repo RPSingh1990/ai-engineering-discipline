@@ -31,11 +31,16 @@ EXPECTED_FILES = [
     ".agent-ops/agents/devops-release.md",
     ".agent-ops/tasks/password-reset-trust-gate.md",
     ".agent-ops/reviews/password-reset-sample-review.md",
-    ".agent-ops/evals/backend-builder-evals.json",
+    ".agent-ops/evals/agent-contract-evals.json",
+    ".agent-ops/evals/outputs/auth-password-reset-provider-failure.md",
+    ".agent-ops/evals/outputs/frontend-state-contract.md",
+    ".agent-ops/evals/outputs/data-freshness-contract.md",
+    ".agent-ops/evals/outputs/external-action-governance.md",
     ".github/PULL_REQUEST_TEMPLATE.md",
     ".github/workflows/agent-ops-validate.yml",
     "scripts/agent_ops_validate.py",
     "scripts/agent_ops_guard.py",
+    "scripts/run_evals.py",
 ]
 
 

@@ -1,0 +1,11 @@
+title = "Agent Ops Toolkit Gitleaks Config"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Public examples use fake domains and synthetic placeholders only."
+paths = [
+  '''examples/evals/outputs/external-action-governance\.md''',
+  '''docs/prior-art\.md'''
+]

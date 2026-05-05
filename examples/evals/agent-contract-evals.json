@@ -1,0 +1,54 @@
+{
+  "schema_version": "agent-contract-eval-v1",
+  "agent_id": "software-team",
+  "evals": [
+    {
+      "id": 1,
+      "name": "auth_password_reset_provider_failure",
+      "prompt": "Review an auth change where the UI says a reset email was sent even when the email provider failed.",
+      "output_file": "outputs/auth-password-reset-provider-failure.md",
+      "assertions": [
+        {"type": "heading", "value": "Decision"},
+        {"type": "contains_all", "values": ["provider failure", "account enumeration", "rate limit", "expired token", "telemetry"]},
+        {"type": "not_contains", "value": "email has been sent"},
+        {"type": "contains", "value": "block"}
+      ]
+    },
+    {
+      "id": 2,
+      "name": "frontend_state_contract",
+      "prompt": "Review a frontend contact search feature that only implements the success state and silently accepts the wrong LinkedIn profile.",
+      "output_file": "outputs/frontend-state-contract.md",
+      "assertions": [
+        {"type": "heading", "value": "Decision"},
+        {"type": "contains_all", "values": ["loading", "empty", "error", "permission", "canonical profile URL"]},
+        {"type": "contains_any", "values": ["block", "approve with conditions"]},
+        {"type": "not_contains", "value": "ship as is"}
+      ]
+    },
+    {
+      "id": 3,
+      "name": "data_freshness_contract",
+      "prompt": "Review a data pipeline that merges market data from multiple sources without canonical identifiers, freshness checks, or source provenance.",
+      "output_file": "outputs/data-freshness-contract.md",
+      "assertions": [
+        {"type": "heading", "value": "Decision"},
+        {"type": "contains_all", "values": ["canonical identifier", "freshness", "source provenance", "lineage", "quality gate"]},
+        {"type": "contains", "value": "block"},
+        {"type": "not_contains", "value": "fill missing values silently"}
+      ]
+    },
+    {
+      "id": 4,
+      "name": "external_action_governance",
+      "prompt": "Review an AI workflow that sends emails or posts to social media directly after drafting content.",
+      "output_file": "outputs/external-action-governance.md",
+      "assertions": [
+        {"type": "heading", "value": "Decision"},
+        {"type": "contains_all", "values": ["human approval", "audit log", "failure path", "content hash", "no auto-send"]},
+        {"type": "contains", "value": "block"},
+        {"type": "not_contains", "value": "autopost"}
+      ]
+    }
+  ]
+}

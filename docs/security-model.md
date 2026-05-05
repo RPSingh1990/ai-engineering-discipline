@@ -44,7 +44,7 @@ Public agent examples should show:
 - outputs it produces
 - guardrails
 - escalation rules
-- eval prompts
+- eval assertions
 
 They should not show:
 
@@ -74,8 +74,10 @@ The safe pattern is: draft, review, approve, execute, log.
 Before publishing a repo, run:
 
 ```bash
+gitleaks detect --source . --redact
 python3 scripts/validate_public_repo.py
 python3 scripts/agent_ops_validate.py --strict
+python3 scripts/run_evals.py
 ```
 
 Then manually check:
@@ -88,3 +90,7 @@ Then manually check:
 - no screenshots with secrets
 
 If any doubt exists, block release.
+
+## Scanner Boundary
+
+The local regex scanner is a public-safety backstop, not a professional secret scanner. Use Gitleaks and GitHub secret scanning for real repository protection.

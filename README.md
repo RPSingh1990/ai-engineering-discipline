@@ -1,17 +1,13 @@
-# Agent Ops Toolkit for AI-Assisted Engineering Teams
+# Agent Contract Tests for AI-Assisted Engineering Teams
 
 [![validate](https://github.com/RPSingh1990/ai-engineering-discipline/actions/workflows/validate.yml/badge.svg)](https://github.com/RPSingh1990/ai-engineering-discipline/actions/workflows/validate.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-![agent-ops](https://img.shields.io/badge/agent--ops-validated-blue)
-![public-safe](https://img.shields.io/badge/public--safe-sanitized-purple)
 
-Templates, evals, call graphs, tool ACLs, governed-task packets, and CI checks for managing AI coding agents like accountable workers.
+Small, runnable contract checks for teams using AI coding agents.
 
-Most AI engineering repos teach people how to build with AI. This repo focuses on a different problem: **how to control AI coding agents before they create prompt sprawl, unclear ownership, unsafe permissions, weak evals, and fake production readiness.**
+This repo is not an agent framework and not a claim of novelty. It is a lightweight way to turn agent roles, tool permissions, call graphs, governed actions, and eval assertions into files that can fail CI.
 
-This is not a new agent framework. It is a small governance layer for teams already using Codex, Claude Code, Cursor, Copilot, or other AI coding tools.
-
-It does not publish private prompts, internal memory, secrets, customer data, repo paths, production configs, or raw internal agent instructions. The examples here are sanitized patterns that a team can copy safely.
+Use it beside Codex, Claude Code, Cursor, Copilot, AutoGen, CrewAI, LangGraph, or your own runner. The goal is simple: make agent behavior reviewable before it becomes production behavior.
 
 ## Who This Is For
 
@@ -34,7 +30,7 @@ Each agent needs:
 - expected outputs
 - permission boundaries
 - escalation rules
-- eval prompts
+- eval assertions
 - evidence of performance
 - a manager/orchestrator
 
@@ -50,7 +46,8 @@ docs/
   enforcement-model.md          What the validator enforces and what it cannot
   failure-modes.md              What breaks when AI coding scales badly
   prompt-blocks.md              Copy-paste prompts for Codex/Claude/Cursor
-  case-study.md                 Sanitized field notes from real builds
+  case-study.md                 Multiple sanitized failure cases
+  prior-art.md                  Related agent, eval, and security work
   adoption-and-contribution.md  Honest adoption path and contribution guide
   no-code-agent-ops.md          Operator-friendly use without writing code
 
@@ -58,8 +55,9 @@ examples/
   agents/                       Public-safe agent specifications
   software-team-agents/         Sanitized software-team agent pack
   registry/                     Example call graph, tool ACL, governed channels
-  evals/                        Copyable eval prompts
+  evals/                        Runnable deterministic eval assertions
   worked-example/               End-to-end governed task example
+  scenarios/                    Four distinct failure scenarios
   before-after/                 Vibe-coded request vs governed agent task
   demo-repo/                    Minimal initialized Agent Ops example
 
@@ -74,9 +72,11 @@ scripts/
   agent_ops_init.py             Copy Agent Ops starter files into another repo
   agent_ops_validate.py         Enforce agent ACLs, call graph, and governed tasks
   agent_ops_guard.py            Runtime guard helpers for tool/call/channel checks
+  run_evals.py                  Run deterministic assertions over saved outputs
 
 .github/workflows/
   validate.yml                  GitHub Actions validation
+.gitleaks.toml                  Gitleaks configuration
 ```
 
 ## Quick Start
@@ -94,6 +94,7 @@ PASS public safety scan
 PASS required docs
 PASS templates
 PASS scripts
+PASS security tooling
 PASS agent examples
 PASS software-team agent pack
 PASS eval examples
@@ -113,6 +114,18 @@ PASS tool ACL enforcement
 PASS call graph enforcement
 PASS governed channel registry
 PASS governed tasks
+```
+
+Run deterministic eval assertions over saved agent outputs:
+
+```bash
+python3 scripts/run_evals.py
+```
+
+Expected result:
+
+```text
+RESULT 4/4 evals passed
 ```
 
 Initialize Agent Ops files into another repo:
@@ -154,6 +167,8 @@ python3 scripts/agent_ops_guard.py call product-manager backend-builder
 
 The first command should allow the tool. The second should deny the call because the example call graph routes implementation work through the orchestrator.
 
+`scripts/run_evals.py` does not call a model. It scores saved outputs. Generate an answer with any AI coding agent, save it as an output file, and run the same deterministic assertions against it.
+
 ## 30-Minute Adoption Path
 
 If you want to try this on a real repo today:
@@ -180,7 +195,7 @@ For the sanitized software-team agent pack, read:
 
 1. Write an agent request before creating a new agent.
 2. Define the agent with a narrow role and trigger.
-3. Add 2-3 realistic eval prompts.
+3. Add 2-3 realistic eval assertions.
 4. Give the agent the smallest useful permissions.
 5. Route sensitive work through a security review.
 6. Require evidence before merge or deploy.
@@ -193,6 +208,8 @@ This is not:
 - an agent framework
 - a model wrapper
 - a prompt marketplace
+- a complete sandbox
+- a replacement for Gitleaks, GitHub secret scanning, Promptfoo, DeepEval, Inspect, or AgentOps
 - a replacement for engineering judgment
 - a way to bypass code review, security review, or tests
 
@@ -204,11 +221,11 @@ It is an Agent Ops layer for teams already using AI coding tools.
 - Add a security reviewer before deployment.
 - Add a PM agent that converts vague founder requests into acceptance criteria.
 - Add a QA agent that checks behavior beyond the happy path.
-- Add a repo validator that blocks leaked secrets and unsafe agent permissions.
+- Add contract tests that block drift in agent tools, calls, eval outputs, and governed actions.
 
 ## Contribution Path
 
-If this helps your team, fork it or open an issue with your own agent-operating pattern. The strongest contributions are concrete: better enforcement checks, eval prompts, governed-task examples, and failure cases from real AI-assisted builds.
+If this helps your team, fork it or open an issue with your own agent-operating pattern. The strongest contributions are concrete: better enforcement checks, eval assertions, governed-task examples, and failure cases from real AI-assisted builds.
 
 ## License
 

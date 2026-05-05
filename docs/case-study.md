@@ -1,105 +1,80 @@
-# Sanitized Case Study: From Vibe Coding To Agent Ops
+# Failure Cases
 
-This case study is public-safe. It describes patterns from real AI-assisted product work without exposing private repo internals, customer data, credentials, raw prompts, or production configuration.
+This document is intentionally modest. It does not prove the toolkit works in every environment. It lists the failure classes the examples and deterministic evals currently cover.
 
-## Starting Problem
+## 1. Auth Trust Failure
 
-AI coding made it possible to build quickly, but speed introduced new risks:
+Problem:
 
-- duplicated work across chats
-- unclear ownership between agents
-- frontend and backend drift
-- weak deployment discipline
-- shallow testing
-- private details leaking into public-facing material
-- too much orchestration for small tasks
-- not enough governance for sensitive tasks
+- UI claims a reset email was sent.
+- Provider failed or was not configured.
+- User receives no email.
 
-The problem was not that AI coding was useless. The problem was that AI coding without an operating model became hard to trust.
+Useful gate:
 
-## Sanitized Failure Example
+- provider success and failure are observable
+- user messaging does not lie
+- account enumeration is still protected
+- reset tokens are never logged
 
-A password-reset feature looked complete from the UI:
+Example:
 
-- user entered email
-- UI showed "reset email sent"
-- backend returned success-like response
+- `examples/scenarios/auth-password-reset.md`
 
-But the mail provider was not actually delivering the reset email. The product created a trust failure: the user was told an email had been sent when the system had no delivery evidence.
+## 2. Frontend Identity Failure
 
-The engineering issue was not just "email bug." It was an AI-assisted delivery discipline failure:
+Problem:
 
-- no provider-failure test
-- no telemetry for delivery failure
-- no clear user-facing distinction between safe account-enumeration protection and false delivery confirmation
-- no release gate asking whether auth-sensitive flows had been tested end to end
+- a contact search accepts the wrong person
+- name match wins over canonical profile URL
+- UI has only the success state
 
-## Intervention
+Useful gate:
 
-The team moved this class of work into a governed lane:
+- canonical profile URL is source of truth
+- secondary search requires identity comparison
+- loading, empty, error, permission, mismatch, and success states exist
 
-1. PM defines the user trust requirement.
-2. Backend defines exact provider success/failure behavior.
-3. Security checks account-enumeration risk and false-success messaging.
-4. QA tests success, unknown account, provider failure, rate limits, and expired token.
-5. Release requires evidence before deploy.
+Example:
 
-## Measurable Improvement
+- `examples/scenarios/frontend-contact-identity.md`
 
-The output changed from:
+## 3. Data Reliability Failure
 
-> "Looks done; the form says email sent."
+Problem:
 
-to:
+- pipeline merges sources without canonical IDs
+- stale values are used as fresh values
+- source provenance is missing
 
-> "The reset flow is releasable only if provider success/failure is observable, tests cover failure states, and user messaging is honest without leaking whether the account exists."
+Useful gate:
 
-That is the practical difference between AI-generated feature completion and production-grade engineering.
+- canonical identifier exists
+- freshness threshold exists
+- source provenance and lineage exist
+- missing values are not silently filled
 
-## What Changed
+Example:
 
-The system moved to a lightweight AI engineering discipline:
+- `examples/scenarios/data-freshness-provenance.md`
 
-- one orchestrator owns synthesis
-- specialists have narrow roles
-- permissions are explicit
-- external actions are governed
-- security review blocks risky release paths
-- every reusable agent has eval prompts
-- benchmark evidence is tracked
-- public artifacts are sanitized before release
+## 4. External Action Failure
 
-## What Worked
+Problem:
 
-Useful patterns:
+- AI-generated draft becomes an email, social post, deploy, delete, or trade without human approval
 
-- fast lane for tiny reversible tasks
-- governed lane for product/security/release work
-- stable agent IDs instead of cute names
-- call graph to avoid uncontrolled loops
-- tool ACLs to prevent broad access by default
-- public-safe templates instead of private prompt dumps
-- evals before promotion
+Useful gate:
 
-## What Did Not Work
+- draft and execution are separate
+- approval evidence is required
+- audit log and failure path exist
+- runtime guard blocks missing evidence
 
-Weak patterns:
+Example:
 
-- treating every task as a multi-agent process
-- making agent instructions longer instead of clearer
-- exposing raw agent internals as public content
-- assuming a successful demo means production readiness
-- using a cheap model for judgment-heavy research without review
-- building many products without explicit sequencing
+- `examples/scenarios/external-action-governance.md`
 
-## Practical Takeaway
+## Current Limitation
 
-AI engineering scales when the team treats agents as accountable workers:
-
-- define the job
-- limit the tools
-- test the behavior
-- review the output
-- promote only with evidence
-
-The discipline matters more than the prompt.
+These are examples and contract checks. They are not production proof. The next useful improvement is adapters for real agent runners.

@@ -6,7 +6,7 @@ This repo should earn trust by being useful in real repositories, not by claimin
 
 Use this angle:
 
-> AI coding is useful. Unreviewed AI coding is the risk. This repo gives teams a small Agent Ops layer: contracts, permissions, evals, and CI checks.
+> AI coding is useful. Unreviewed AI coding is the risk. This repo gives teams small contract tests for agent roles, permissions, eval outputs, and governed actions.
 
 Avoid:
 
@@ -18,7 +18,7 @@ Avoid:
 
 ## Honest Scope
 
-This is not a replacement for AutoGen, CrewAI, LangGraph, AgentOps, or a sandboxed runtime.
+This is not a replacement for AutoGen, CrewAI, LangGraph, AgentOps, Promptfoo, DeepEval, Inspect, Gitleaks, or a sandboxed runtime.
 
 It is a lightweight repo-governance layer for teams that already use AI coding tools and need:
 
@@ -28,13 +28,14 @@ It is a lightweight repo-governance layer for teams that already use AI coding t
 - call graphs that CI can check
 - governed channels for send/post/deploy actions
 - security and QA evidence before merge
+- deterministic eval assertions over saved outputs
 
 ## Strong Contributions
 
 The most useful contributions are concrete:
 
 1. More enforcement checks in `scripts/agent_ops_validate.py`.
-2. More realistic eval prompts.
+2. Better deterministic assertions in `scripts/run_evals.py`.
 3. Better examples of governed tasks.
 4. More failure modes from actual AI-assisted builds.
 5. Adapters for common agent frameworks.
@@ -62,4 +63,3 @@ Avoid:
 If sharing the repo publicly, sell the problem and the workflow, not the author:
 
 > Most AI engineering content teaches prompting or frameworks. I needed something smaller: a way to stop AI coding agents from drifting outside their jobs, tools, and review gates.
-

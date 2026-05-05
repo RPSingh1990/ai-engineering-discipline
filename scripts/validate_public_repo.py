@@ -35,6 +35,7 @@ REQUIRED_DOCS = [
     "docs/failure-modes.md",
     "docs/prompt-blocks.md",
     "docs/case-study.md",
+    "docs/prior-art.md",
     "docs/adoption-and-contribution.md",
     "docs/enforcement-model.md",
     "docs/no-code-agent-ops.md",
@@ -53,6 +54,11 @@ REQUIRED_SCRIPTS = [
     "scripts/agent_ops_init.py",
     "scripts/agent_ops_validate.py",
     "scripts/agent_ops_guard.py",
+    "scripts/run_evals.py",
+]
+
+REQUIRED_SECURITY_FILES = [
+    ".gitleaks.toml",
 ]
 
 REQUIRED_AGENT_FIELDS = [
@@ -154,8 +160,10 @@ def check_eval_examples() -> list[str]:
             errors.append(f"{rel}: missing agent_id")
         if text.count('"prompt"') < 3:
             errors.append(f"{rel}: expected at least 3 prompts")
-        if text.count('"expected_output"') < 3:
-            errors.append(f"{rel}: expected at least 3 expected_output entries")
+        if text.count('"assertions"') < 3:
+            errors.append(f"{rel}: expected runnable assertions, not prose-only expected output")
+        if '"output_file"' not in text and '"output"' not in text:
+            errors.append(f"{rel}: expected output_file or output for deterministic scoring")
     return errors
 
 
@@ -175,6 +183,7 @@ def main() -> int:
         ("required docs", check_required_files(REQUIRED_DOCS, "doc")),
         ("templates", check_required_files(REQUIRED_TEMPLATES, "template")),
         ("scripts", check_required_files(REQUIRED_SCRIPTS, "script")),
+        ("security tooling", check_required_files(REQUIRED_SECURITY_FILES, "security file")),
         ("agent examples", check_agent_examples()),
         ("software-team agent pack", check_software_team_agents()),
         ("eval examples", check_eval_examples()),

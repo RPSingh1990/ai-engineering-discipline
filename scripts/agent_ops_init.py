@@ -19,6 +19,7 @@ FILES_TO_COPY = [
     ("templates/agent-ops-validate.yml", ".github/workflows/agent-ops-validate.yml"),
     ("scripts/agent_ops_validate.py", "scripts/agent_ops_validate.py"),
     ("scripts/agent_ops_guard.py", "scripts/agent_ops_guard.py"),
+    ("scripts/run_evals.py", "scripts/run_evals.py"),
     ("examples/registry/call-graph.example.yaml", ".agent-ops/registry/call-graph.yaml"),
     ("examples/registry/tool-acl.example.yaml", ".agent-ops/registry/tool-acl.yaml"),
     ("examples/registry/governed-channels.example.yaml", ".agent-ops/registry/governed-channels.yaml"),
@@ -38,7 +39,11 @@ FILES_TO_COPY = [
 DEMO_FILES = [
     ("examples/worked-example/governed-task.md", ".agent-ops/tasks/password-reset-trust-gate.md"),
     ("examples/worked-example/sample-review.md", ".agent-ops/reviews/password-reset-sample-review.md"),
-    ("examples/evals/backend-builder-evals.json", ".agent-ops/evals/backend-builder-evals.json"),
+    ("examples/evals/agent-contract-evals.json", ".agent-ops/evals/agent-contract-evals.json"),
+    ("examples/evals/outputs/auth-password-reset-provider-failure.md", ".agent-ops/evals/outputs/auth-password-reset-provider-failure.md"),
+    ("examples/evals/outputs/frontend-state-contract.md", ".agent-ops/evals/outputs/frontend-state-contract.md"),
+    ("examples/evals/outputs/data-freshness-contract.md", ".agent-ops/evals/outputs/data-freshness-contract.md"),
+    ("examples/evals/outputs/external-action-governance.md", ".agent-ops/evals/outputs/external-action-governance.md"),
 ]
 
 
