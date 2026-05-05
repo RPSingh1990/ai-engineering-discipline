@@ -1,13 +1,28 @@
-# Agent Contract Tests for AI-Assisted Engineering Teams
+# Agent Contract Tests
 
-[![validate](https://github.com/RPSingh1990/ai-engineering-discipline/actions/workflows/validate.yml/badge.svg)](https://github.com/RPSingh1990/ai-engineering-discipline/actions/workflows/validate.yml)
+[![validate](https://github.com/RPSingh1990/agent-contract-tests/actions/workflows/validate.yml/badge.svg)](https://github.com/RPSingh1990/agent-contract-tests/actions/workflows/validate.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-Small, runnable contract checks for teams using AI coding agents.
+CI checks for AI coding agent roles, tool ACLs, call graphs, governed actions, and eval outputs.
 
-This repo is not an agent framework and not a claim of novelty. It is a lightweight way to turn agent roles, tool permissions, call graphs, governed actions, and eval assertions into files that can fail CI.
+This is a toolkit first, with a composite GitHub Action included for teams that want the fastest CI path.
+
+It is not an agent framework and not a claim of novelty. It is a lightweight way to turn agent roles, tool permissions, call graphs, governed actions, and eval assertions into files that can fail CI.
 
 Use it beside Codex, Claude Code, Cursor, Copilot, AutoGen, CrewAI, LangGraph, or your own runner. The goal is simple: make agent behavior reviewable before it becomes production behavior.
+
+![Agent contract tests demo](assets/demo-agent-contract-tests.svg)
+
+## What It Catches
+
+Agent Contract Tests fails CI when:
+
+- an agent asks for a tool that the ACL does not grant
+- a registry grants tools an agent did not declare
+- one agent delegates to another agent outside the call graph
+- governed channels lack approval or evidence requirements
+- governed tasks miss owner, scope, reviews, tests, rollback, or evidence
+- saved agent outputs miss deterministic eval assertions
 
 ## Who This Is For
 
@@ -151,7 +166,7 @@ The initializer also copies a GitHub Action into the target repo so future PRs c
 Use the repo as a composite GitHub Action:
 
 ```yaml
-- uses: RPSingh1990/ai-engineering-discipline@main
+- uses: RPSingh1990/agent-contract-tests@v0.1.0
   with:
     root: "."
     strict: "true"
@@ -229,11 +244,12 @@ This is not:
 - a model wrapper
 - a prompt marketplace
 - a complete sandbox
+- a marketplace-first action
 - a replacement for Gitleaks, GitHub secret scanning, Promptfoo, DeepEval, Inspect, or AgentOps
 - a replacement for engineering judgment
 - a way to bypass code review, security review, or tests
 
-It is an Agent Ops layer for teams already using AI coding tools.
+It is an Agent Ops contract-test toolkit for teams already using AI coding tools. The GitHub Action is the easiest adoption path, not the whole product.
 
 ## Good First Use Cases
 

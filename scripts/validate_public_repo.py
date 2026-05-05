@@ -64,6 +64,8 @@ REQUIRED_SCRIPTS = [
 
 REQUIRED_SECURITY_FILES = [
     ".gitleaks.toml",
+    "SECURITY.md",
+    "CODE_OF_CONDUCT.md",
 ]
 
 REQUIRED_AGENT_FIELDS = [

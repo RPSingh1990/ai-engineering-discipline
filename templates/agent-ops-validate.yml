@@ -15,7 +15,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Validate agent contracts
-        uses: RPSingh1990/ai-engineering-discipline@main
+        uses: RPSingh1990/agent-contract-tests@v0.1.0
         with:
           root: "."
           strict: "true"

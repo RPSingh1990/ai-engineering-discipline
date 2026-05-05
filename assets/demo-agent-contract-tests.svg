@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="810" viewBox="0 0 1440 810" role="img" aria-labelledby="title desc">
+  <title id="title">Agent Contract Tests demo</title>
+  <desc id="desc">Terminal-style screenshot showing an AI coding agent contract failing CI because tool ACL and call graph checks detected drift.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#071012"/>
+      <stop offset="55%" stop-color="#101417"/>
+      <stop offset="100%" stop-color="#171b1d"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="24" stdDeviation="24" flood-color="#000000" flood-opacity="0.34"/>
+    </filter>
+  </defs>
+  <rect width="1440" height="810" fill="url(#bg)"/>
+  <rect x="80" y="72" width="1280" height="666" rx="18" fill="#0d1117" stroke="#2b343b" filter="url(#shadow)"/>
+  <rect x="80" y="72" width="1280" height="56" rx="18" fill="#151b23"/>
+  <circle cx="118" cy="100" r="8" fill="#ff5f57"/>
+  <circle cx="146" cy="100" r="8" fill="#ffbd2e"/>
+  <circle cx="174" cy="100" r="8" fill="#28c840"/>
+  <text x="210" y="107" fill="#8b949e" font-family="SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace" font-size="18">agent-contract-tests demo</text>
+
+  <text x="118" y="176" fill="#7ee787" font-family="SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace" font-size="26">$ python3 scripts/agent_ops_validate.py --strict</text>
+  <text x="118" y="230" fill="#d6deeb" font-family="SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace" font-size="24">PASS agent specs</text>
+  <text x="118" y="278" fill="#d6deeb" font-family="SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace" font-size="24">PASS governed channel registry</text>
+  <text x="118" y="326" fill="#ff7b72" font-family="SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace" font-size="24">FAIL tool ACL enforcement</text>
+  <text x="118" y="374" fill="#ff7b72" font-family="SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace" font-size="24">  - backend-builder requested deploy_prod but tool-acl.yaml does not grant it</text>
+  <text x="118" y="422" fill="#ff7b72" font-family="SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace" font-size="24">FAIL call graph enforcement</text>
+  <text x="118" y="470" fill="#ff7b72" font-family="SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace" font-size="24">  - product-manager may not delegate directly to backend-builder</text>
+
+  <rect x="118" y="528" width="1204" height="120" rx="14" fill="#101820" stroke="#24424b"/>
+  <text x="150" y="574" fill="#2dd4bf" font-family="SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace" font-size="24">What changed?</text>
+  <text x="150" y="622" fill="#d6deeb" font-family="SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace" font-size="24">Agent permissions are no longer hidden inside prompts or chats.</text>
+  <text x="150" y="670" fill="#d6deeb" font-family="SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace" font-size="24">They are files that can fail CI before agent behavior reaches production.</text>
+</svg>

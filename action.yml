@@ -1,5 +1,10 @@
 name: Agent Contract Tests
+author: Ramanpreet Singh Arora
 description: Validate Agent Ops contracts, tool ACLs, call graphs, governed tasks, and deterministic eval assertions.
+
+branding:
+  icon: shield
+  color: blue
 
 inputs:
   root:
