@@ -8,7 +8,7 @@ description: >
 reports_to: orchestrator
 model_tier: balanced
 allowed_callers: [orchestrator]
-allowed_callees: [orchestrator]
+allowed_callees: [orchestrator, backend-builder]
 tools: [planning_docs]
 memory_scope: product_context_only
 write_scope: product_packets_only
