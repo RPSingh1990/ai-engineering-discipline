@@ -69,7 +69,7 @@ def init_target(target: Path, *, force: bool, demo: bool) -> list[str]:
         readme.parent.mkdir(parents=True, exist_ok=True)
         readme.write_text(
             "# Agent Ops\n\n"
-            "This folder was initialized from the Agent Ops Toolkit.\n\n"
+            "This folder was initialized from the Agent Contract Tests.\n\n"
             "Start with:\n"
             "1. `.agent-ops/templates/governed-task.md`\n"
             "2. `.agent-ops/agents/orchestrator.md`\n"
