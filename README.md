@@ -1,6 +1,13 @@
-# AI Engineering Discipline
+# Agent Ops Toolkit for AI-Assisted Engineering Teams
 
-Practical guardrails for building software with AI agents without letting the system collapse into prompt sprawl, hidden security risk, or unreviewable code.
+[![validate](https://github.com/RPSingh1990/ai-engineering-discipline/actions/workflows/validate.yml/badge.svg)](https://github.com/RPSingh1990/ai-engineering-discipline/actions/workflows/validate.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+![agent-ops](https://img.shields.io/badge/agent--ops-validated-blue)
+![public-safe](https://img.shields.io/badge/public--safe-sanitized-purple)
+
+Templates, evals, call graphs, tool ACLs, governed-task packets, and CI checks for managing AI coding agents like accountable workers.
+
+Most AI engineering repos teach people how to build with AI. This repo focuses on a different problem: **how to control AI coding agents before they create prompt sprawl, unclear ownership, unsafe permissions, weak evals, and fake production readiness.**
 
 This repository is a public-safe toolkit distilled from real AI product-building work across:
 
@@ -9,7 +16,7 @@ This repository is a public-safe toolkit distilled from real AI product-building
 - a public agent showcase site
 - a research decision-support prototype
 
-It does not publish private prompts, internal memory, secrets, customer data, repo paths, production configs, or raw agent instructions. The examples here are sanitized patterns that a team can copy safely.
+It does not publish private prompts, internal memory, secrets, customer data, repo paths, production configs, or raw internal agent instructions. The examples here are sanitized patterns that a team can copy safely.
 
 ## Who This Is For
 
@@ -49,12 +56,16 @@ docs/
   prompt-blocks.md              Copy-paste prompts for Codex/Claude/Cursor
   case-study.md                 Sanitized field notes from real builds
   recognition-plan.md           How to grow trust around the repo
+  no-code-agent-ops.md          Operator-friendly use without writing code
 
 examples/
   agents/                       Public-safe agent specifications
+  software-team-agents/         Sanitized software-team agent pack
   registry/                     Example call graph, tool ACL, governed channels
   evals/                        Copyable eval prompts
   worked-example/               End-to-end governed task example
+  before-after/                 Vibe-coded request vs governed agent task
+  demo-repo/                    Minimal initialized Agent Ops example
 
 templates/
   agent-request.md              Hire or upgrade an agent
@@ -64,6 +75,7 @@ templates/
 
 scripts/
   validate_public_repo.py       Local/CI safety and structure checks
+  agent_ops_init.py             Copy Agent Ops starter files into another repo
 
 .github/workflows/
   validate.yml                  GitHub Actions validation
@@ -81,18 +93,26 @@ Expected result:
 
 ```text
 PASS public safety scan
-PASS agent examples
 PASS required docs
 PASS templates
+PASS scripts
+PASS agent examples
+PASS software-team agent pack
+PASS eval examples
 ```
 
-Then copy one template:
+Initialize Agent Ops files into another repo:
 
 ```bash
-cp templates/agent-request.md my-agent-request.md
+python3 scripts/agent_ops_init.py --target ../my-product
 ```
 
-Use it to define a new agent before giving it tools or project access.
+Or generate a local demo:
+
+```bash
+python3 scripts/agent_ops_init.py --demo
+python3 scripts/validate_public_repo.py
+```
 
 ## 30-Minute Adoption Path
 
@@ -111,6 +131,10 @@ For a complete example, read:
 - `examples/worked-example/agent-request.md`
 - `examples/worked-example/governed-task.md`
 - `examples/worked-example/sample-review.md`
+
+For the sanitized software-team agent pack, read:
+
+- `examples/software-team-agents/README.md`
 
 ## The Minimum Useful Workflow
 
@@ -132,7 +156,7 @@ This is not:
 - a replacement for engineering judgment
 - a way to bypass code review, security review, or tests
 
-It is a discipline layer for teams already using AI coding tools.
+It is an Agent Ops layer for teams already using AI coding tools.
 
 ## Good First Use Cases
 

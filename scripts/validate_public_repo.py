@@ -36,6 +36,7 @@ REQUIRED_DOCS = [
     "docs/prompt-blocks.md",
     "docs/case-study.md",
     "docs/recognition-plan.md",
+    "docs/no-code-agent-ops.md",
 ]
 
 REQUIRED_TEMPLATES = [
@@ -43,6 +44,11 @@ REQUIRED_TEMPLATES = [
     "templates/governed-task.md",
     "templates/security-review.md",
     "templates/pr-checklist.md",
+]
+
+REQUIRED_SCRIPTS = [
+    "scripts/validate_public_repo.py",
+    "scripts/agent_ops_init.py",
 ]
 
 REQUIRED_AGENT_FIELDS = [
@@ -101,11 +107,13 @@ def check_required_files(paths: list[str], label: str) -> list[str]:
     return errors
 
 
-def check_agent_examples() -> list[str]:
+def check_agent_directory(directory: Path, label: str, *, minimum_count: int = 1) -> list[str]:
     errors: list[str] = []
-    agent_files = sorted((ROOT / "examples" / "agents").glob("*.md"))
+    agent_files = sorted(path for path in directory.glob("*.md") if path.name != "README.md")
     if not agent_files:
-        return ["missing agent example files"]
+        return [f"missing {label} files"]
+    if len(agent_files) < minimum_count:
+        errors.append(f"{directory.relative_to(ROOT)}: expected at least {minimum_count} files")
     for path in agent_files:
         text = path.read_text(errors="ignore")
         rel = path.relative_to(ROOT)
@@ -116,6 +124,18 @@ def check_agent_examples() -> list[str]:
             if section not in text:
                 errors.append(f"{rel}: missing section {section}")
     return errors
+
+
+def check_agent_examples() -> list[str]:
+    return check_agent_directory(ROOT / "examples" / "agents", "agent example")
+
+
+def check_software_team_agents() -> list[str]:
+    return check_agent_directory(
+        ROOT / "examples" / "software-team-agents",
+        "software-team agent",
+        minimum_count=8,
+    )
 
 
 def check_eval_examples() -> list[str]:
@@ -150,7 +170,9 @@ def main() -> int:
         ("public safety scan", check_public_safety()),
         ("required docs", check_required_files(REQUIRED_DOCS, "doc")),
         ("templates", check_required_files(REQUIRED_TEMPLATES, "template")),
+        ("scripts", check_required_files(REQUIRED_SCRIPTS, "script")),
         ("agent examples", check_agent_examples()),
+        ("software-team agent pack", check_software_team_agents()),
         ("eval examples", check_eval_examples()),
     ]
     ok = True
